@@ -18,16 +18,43 @@ export default function Dashboard() {
   const [statusFilter, setStatusFilter] = useState("");
   const [typeFilter, setTypeFilter] = useState("");
   const [search, setSearch] = useState("");
+  const [sort, setSort] = useState("newest");
   const [isFormOpen, setIsFormOpen] = useState(false);
   const [editingDebt, setEditingDebt] = useState<Debt | null>(
     null,
   );
 
-  const filteredDebts = debts.filter((debt) =>
-    debt.counterpart_name
-      .toLowerCase()
-      .includes(search.toLowerCase())
-  );
+  const filteredDebts = [...debts]
+    .filter((debt) =>
+      debt.counterpart_name
+        .toLowerCase()
+        .includes(search.toLowerCase())
+    )
+    .sort((a, b) => {
+      if (sort === "newest") {
+        return (
+          new Date(b.created_at).getTime() -
+          new Date(a.created_at).getTime()
+        );
+      }
+
+      if (sort === "oldest") {
+        return (
+          new Date(a.created_at).getTime() -
+          new Date(b.created_at).getTime()
+        );
+      }
+
+      if (sort === "amount_desc") {
+        return b.amount - a.amount;
+      }
+
+      if (sort === "amount_asc") {
+        return a.amount - b.amount;
+      }
+
+      return 0;
+    });
 
   const fetchDebts = async () => {
     try {
@@ -244,11 +271,14 @@ export default function Dashboard() {
                   </div>
 
                   <DebtFilters
+                    search={search}
                     status={statusFilter}
                     type={typeFilter}
+                    sort={sort}
                     onStatusChange={setStatusFilter}
                     onTypeChange={setTypeFilter}
                     onSearchChange={setSearch}
+                    onSortChange={setSort}
                   />
                 </div>
 

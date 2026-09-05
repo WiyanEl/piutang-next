@@ -2,18 +2,22 @@ interface DebtFiltersProps {
   search: string;
   status: string;
   type: string;
+  sort: string;
   onSearchChange: (value: string) => void;
   onStatusChange: (value: string) => void;
   onTypeChange: (value: string) => void;
+  onSortChange: (value: string) => void;
 }
 
 export default function DebtFilters({
   search,
   status,
   type,
+  sort,
   onSearchChange,
   onStatusChange,
   onTypeChange,
+  onSortChange,
 }: DebtFiltersProps) {
   return (
     <div className="flex flex-col gap-3 sm:flex-row">
@@ -51,6 +55,19 @@ export default function DebtFilters({
         <option value="">Semua tipe</option>
         <option value="owed_to_me">Dihutang ke saya</option>
         <option value="i_owe">Saya hutang</option>
+      </select>
+
+      <select
+        value={sort}
+        onChange={(event) =>
+          onSortChange(event.target.value)
+        }
+        className="rounded-lg border border-gray-200 bg-white px-4 py-2.5 text-sm text-gray-700 outline-none focus:border-blue-500"
+      >
+        <option value="newest">Terbaru</option>
+        <option value="oldest">Terlama</option>
+        <option value="amount_desc">Jumlah terbesar</option>
+        <option value="amount_asc">Jumlah terkecil</option>
       </select>
     </div>
   );
