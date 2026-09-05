@@ -1,5 +1,5 @@
 create type public.debt_type as enum (
-  'owned_to_me',
+  'owed_to_me',
   'i_owe'
 );
 

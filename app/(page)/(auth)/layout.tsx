@@ -1,11 +1,15 @@
 import Link from "next/link";
 import React from "react";
 
-export default function AuthLayout({
+import { requireGuest } from "@/app/lib/auth/requireGuest"
+
+export default async function AuthLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
+  await requireGuest()
+
   return (
     <div className="relative p-6 z-1 bg-white sm:p-0">
       <div className="relative flex lg:flex-row w-full h-screen justify-center flex-col  sm:p-0">

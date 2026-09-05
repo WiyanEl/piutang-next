@@ -2,7 +2,7 @@
 
 import { FormEvent, useState } from "react"
 import { useRouter } from "next/navigation"
-import { createClient } from "@/lib/supabase/client"
+import { createClient } from "@/app/lib/supabase/client"
 import Link from "next/link"
 import { Eye, EyeOff, AlertCircle } from "lucide-react"
 
