@@ -19,13 +19,6 @@ export const createDebtSchema = z.object({
     .int("Jumlah harus berupa bilangan bulat")
     .positive("Jumlah harus lebih dari 0"),
 
-  note: z
-    .string()
-    .trim()
-    .max(500, "Catatan maksimal 500 karakter")
-    .nullable()
-    .optional(),
-
   due_date: z
     .string()
     .date("Format tanggal tidak valid")

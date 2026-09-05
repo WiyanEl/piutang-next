@@ -8,6 +8,8 @@ import SummaryCards from "./SummaryCards"
 import DebtFilters from "./DebtFilters"
 import DebtList from "./DebtList"
 import DebtFormModal from "./DebtFormModal"
+import GroupedDebtList from "./GroupedDebtList"
+import DebtChart from "./DebtChart"
 
 import type { Debt } from "@/app/types/debt"
 
@@ -23,6 +25,7 @@ export default function Dashboard() {
   const [editingDebt, setEditingDebt] = useState<Debt | null>(
     null,
   );
+  const [viewMode, setViewMode] = useState<"list" | "grouped">("list");
 
   const filteredDebts = [...debts]
     .filter((debt) =>
@@ -258,6 +261,13 @@ export default function Dashboard() {
                 totalIOwe={summary.totalIOwe}
               />
 
+              <div className="mt-6">
+                <DebtChart
+                  totalOwedToMe={summary.totalOwedToMe}
+                  totalIOwe={summary.totalIOwe}
+                />
+              </div>
+
               <div className="mt-8">
                 <div className="mb-4 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
                   <div>
@@ -275,10 +285,12 @@ export default function Dashboard() {
                     status={statusFilter}
                     type={typeFilter}
                     sort={sort}
+                    viewMode={viewMode}
                     onStatusChange={setStatusFilter}
                     onTypeChange={setTypeFilter}
                     onSearchChange={setSearch}
                     onSortChange={setSort}
+                    onViewModeChange={setViewMode}
                   />
                 </div>
 
@@ -287,15 +299,29 @@ export default function Dashboard() {
                     Memuat data...
                   </div>
                 ) : (
-                  <DebtList
-                    debts={filteredDebts}
-                    onSettle={handleSettle}
-                    onEdit={(debt) => {
-                      setEditingDebt(debt);
-                      setIsFormOpen(true);
-                    }}
-                    onDelete={handleDelete}
-                  />
+                  <>
+                    {viewMode === "list" ? (
+                      <DebtList
+                        debts={filteredDebts}
+                        onSettle={handleSettle}
+                        onEdit={(debt) => {
+                          setEditingDebt(debt);
+                          setIsFormOpen(true);
+                        }}
+                        onDelete={handleDelete}
+                      />
+                    ) : (
+                      <GroupedDebtList
+                        debts={filteredDebts}
+                        onSettle={handleSettle}
+                        onEdit={(debt) => {
+                          setEditingDebt(debt);
+                          setIsFormOpen(true);
+                        }}
+                        onDelete={handleDelete}
+                      />
+                    )}
+                  </>
                 )}
               </div>
             </>

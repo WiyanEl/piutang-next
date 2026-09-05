@@ -3,10 +3,12 @@ interface DebtFiltersProps {
   status: string;
   type: string;
   sort: string;
+  viewMode: "list" | "grouped";
   onSearchChange: (value: string) => void;
   onStatusChange: (value: string) => void;
   onTypeChange: (value: string) => void;
   onSortChange: (value: string) => void;
+  onViewModeChange: (value: "list" | "grouped") => void;
 }
 
 export default function DebtFilters({
@@ -14,10 +16,12 @@ export default function DebtFilters({
   status,
   type,
   sort,
+  viewMode,
   onSearchChange,
   onStatusChange,
   onTypeChange,
   onSortChange,
+  onViewModeChange,
 }: DebtFiltersProps) {
   return (
     <div className="flex flex-col gap-3 sm:flex-row">
@@ -69,6 +73,32 @@ export default function DebtFilters({
         <option value="amount_desc">Jumlah terbesar</option>
         <option value="amount_asc">Jumlah terkecil</option>
       </select>
+
+      <div className="flex rounded-lg border border-gray-200 bg-white p-1">
+        <button
+          type="button"
+          onClick={() => onViewModeChange("list")}
+          className={`rounded-md px-3 py-2 text-sm font-medium transition ${
+            viewMode === "list"
+              ? "bg-gray-100 text-gray-900"
+              : "text-gray-500 hover:text-gray-700"
+          }`}
+        >
+          Transaksi
+        </button>
+
+        <button
+          type="button"
+          onClick={() => onViewModeChange("grouped")}
+          className={`rounded-md px-3 py-2 text-sm font-medium transition ${
+            viewMode === "grouped"
+              ? "bg-gray-100 text-gray-900"
+              : "text-gray-500 hover:text-gray-700"
+          }`}
+        >
+          Per orang
+        </button>
+      </div>
     </div>
   );
 }
