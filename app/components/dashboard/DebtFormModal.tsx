@@ -279,7 +279,7 @@ export default function DebtFormModal({
                 htmlFor="due_date"
                 className="mb-2 block text-sm font-medium text-gray-700"
               >
-                Tenggat Waktu
+                Tanggal
               </label>
 
               <input
